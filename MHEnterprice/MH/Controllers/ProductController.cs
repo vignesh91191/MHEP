@@ -1,5 +1,4 @@
 ﻿using Domain.Entities.Product;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 
@@ -38,7 +37,7 @@ namespace MH.API.Controllers
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProductById(int productId)
         {
-            var productDetails = await _productService.GetProductById(productId);
+            var productDetails = await _productService.GetProductByIdAsync(productId);
 
             if (productDetails != null)
             {
@@ -58,16 +57,8 @@ namespace MH.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(Product productDetails)
         {
-            var isProductCreated = await _productService.CreateProduct(productDetails);
-
-            if (isProductCreated)
-            {
-                return Ok(isProductCreated);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            var productId = await _productService.AddProductAsync(productDetails);
+            return Ok(productId);
         }
 
         /// <summary>
@@ -76,41 +67,30 @@ namespace MH.API.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct(Product productDetails)
+        public bool UpdateProduct(Product productDetails)
         {
-            if (productDetails != null)
-            {
-                var isProductCreated = await _productService.UpdateProduct(productDetails);
-                if (isProductCreated)
-                {
-                    return Ok(isProductCreated);
-                }
-                return BadRequest();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            var isUpdated = _productService.UpdateProduct(productDetails);
+            return isUpdated;
         }
 
-        /// <summary>
-        /// Delete product by id
-        /// </summary>
-        /// <param name="productId"></param>
-        /// <returns></returns>
-        [HttpDelete("{productId}")]
-        public async Task<IActionResult> DeleteProduct(int productId)
-        {
-            var isProductCreated = await _productService.DeleteProduct(productId);
+        ///// <summary>
+        ///// Delete product by id
+        ///// </summary>
+        ///// <param name="productId"></param>
+        ///// <returns></returns>
+        //[HttpDelete("{productId}")]
+        //public async Task<IActionResult> DeleteProduct(int productId)
+        //{
+        //    var isProductCreated = await _productService.DeleteProduct(productId);
 
-            if (isProductCreated)
-            {
-                return Ok(isProductCreated);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
+        //    if (isProductCreated)
+        //    {
+        //        return Ok(isProductCreated);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
     }
 }

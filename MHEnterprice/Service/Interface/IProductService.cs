@@ -11,7 +11,7 @@ namespace Service.Interface
     {
         Task<List<Product>> GetAllProducts();
         Task<Product> GetProductByIdAsync(int productId);
-        Task AddProductAsync(Product product);
-        void UpdateProductAsync(Product product);
+        Task<int> AddProductAsync(Product product);
+        bool UpdateProduct(Product product);
     }
 }

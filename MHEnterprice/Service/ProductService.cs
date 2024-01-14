@@ -13,10 +13,11 @@ namespace Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task AddProductAsync(Product product)
+        public async Task<int> AddProductAsync(Product product)
         {
             await _unitOfWork.GetRepository<Product>().AddAsync(product);
             _unitOfWork.Commit();
+            return product.Id;
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -31,10 +32,11 @@ namespace Service
             return product;
         }
 
-        public void UpdateProductAsync(Product product)
+        public bool UpdateProduct(Product product)
         {
             _unitOfWork.GetRepository<Product>().Update(product);
             _unitOfWork.Commit();
+            return true;
         }
     }
 
