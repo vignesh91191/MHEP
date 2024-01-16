@@ -1,10 +1,14 @@
 ﻿using MDH.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Billing
 {
-    public class BillingDetail : BaseEntity
+    public class BillingDetail
     {
+        [Key]
+        public int Id { get; set; }
+
         [ForeignKey("Billing")]
         public int BillId { get; set; }
 
